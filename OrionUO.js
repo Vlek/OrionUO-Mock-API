@@ -5,7 +5,21 @@
 // TODO: Verify, if I do that, that static analysis will be able
 //      to see all of the methods that the object would have
 
+var fileObject = {
+    Open: function(filename) {
+        if (!filename) {
+            throw "Too few parameters";
+        }
+    }
+};
+
 var GameObject = {
+    /**
+     * @return {number}
+     */
+    Count: function() {
+        return 1;
+    },
     /**
      * @return {string}
      */
@@ -14,9 +28,46 @@ var GameObject = {
     }
 };
 
+var GumpHookObject = {
+
+};
+
+var GumpObject = {
+    /**
+     * @return {boolean}
+     */
+    Replayed: function() {
+        return false;
+    },
+    /**
+     * @return {string}
+     */
+    ID: function() {
+        return "0x0000AA"
+    },
+    Select: function(hook) {
+        if (!hook) {
+            throw "Too few parameters!";
+        }
+        // TODO: Mock this out when gumps are done
+        if (this.debug) {
+            console.log("Selecting with gump hook!");
+        }
+    }
+};
+
 var Orion = {
     // TODO: for all of the find functions, do consistent parameter verification
     debug: false,
+    Attack: function(serial) {
+        if (!serial) {
+            throw "Too few parameters!";
+        }
+
+        if (this.debug) {
+            console.log("Attacking serial " + serial);
+        }
+    },
     CharPrint: function (serial, color, text) {
         if (!serial || !color || !text) {
             throw "Not enough parameters!";
@@ -33,11 +84,38 @@ var Orion = {
             console.log("Clearing journal!");
         }
     },
+    ClearTimers: function() {
+        // TODO: Once mocked, clear all timers from list
+        if (this.debug) {
+            console.log("Clearing all timers!");
+        }
+    },
+    Click: function(serial) {
+        serial = serial | 'self';
+
+        if (this.debug) {
+            console.log("Clicking serial " + serial);
+        }
+    },
+    CreateGumpHook: function(index) {
+        if (!index) {
+            throw "Too few parameters";
+        }
+
+        return GumpHookObject;
+    },
     /**
      * @return {string}
      */
     FindFriend: function(flags, distance) {
         return "0x000006";
+    },
+    FindList: function(listName, container, flags, distance, notoriety, recurse) {
+        if (!listName) {
+            throw "Too few parameters";
+        }
+
+        return ['0x0000AB'];
     },
     FindObject: function(serial) {
         if (!serial) {
@@ -51,8 +129,79 @@ var Orion = {
             throw "Not enough parameters!";
         }
 
+        // TODO: Once mocked, return "real" value
         if (this.debug) {
             console.log("Trying to find graphic: " + graphic);
+        }
+
+        return ["0x000056"];
+    },
+    /**
+     * @return {number}
+     */
+    GetDistance: function(serial) {
+        if (!serial) {
+            throw "Too few parameters";
+        }
+
+        if (this.debug) {
+            console.log("Requesting distance of serial " + serial);
+        }
+
+        // TODO: Mock out an actual number from a mocked object
+        // TODO: Get the value when they're not present. I think it's
+        //      10500?
+        return 2;
+    },
+    GetGump: function(index) {
+        if (!index) {
+            throw "Too few parameters";
+        }
+
+        if (this.debug) {
+            console.log("Requesting gump at index " + index);
+        }
+
+        // TODO: Once mocked, return "real" value
+        return GumpObject;
+    },
+    /**
+     * @return {number}
+     */
+    GumpCount: function() {
+        // TODO: Once mocked, return real value
+        return 0;
+    },
+    HelpGump: function() {
+        if (this.debug) {
+            console.log("Requesting help gump");
+        }
+    },
+    Ignore: function(serial, state) {
+        if (!serial) {
+            throw "Too few parameters";
+        }
+
+        // TODO: Create a mocked ignore list
+        if (this.debug) {
+            console.log("Setting ignore on serial " + serial);
+        }
+    },
+    IgnoreReset: function() {
+
+        // TODO: Create a mocked ignore list, and fix this with it.
+        if (this.debug) {
+            console.log("Resetting ignore list!");
+        }
+    },
+    InfoGump: function(index) {
+        // TODO: Look into this further. Github wiki says this is a void.
+        // it might just output to system, i.e. journal.
+        index = index | -1;
+
+        // TODO: Once mocked, return real value
+        if (this.debug) {
+            console.log("Getting info on gump at index " + index);
         }
     },
     /**
@@ -98,6 +247,21 @@ var Orion = {
             console.log("Printing '" + text + "' with color " + color)
         }
     },
+    Quit: function() {
+        if (this.debug) {
+            console.log("Quitting!");
+        }
+    },
+    RemoveTimer: function(name) {
+        if (!name) {
+            throw "Too few parameters!";
+        }
+
+        // TODO: Once mocked, remove timer from list
+        if (this.debug) {
+            console.log("Removing timer " + name);
+        }
+    },
     SaveConfig: function () {
         if (this.debug) {
             console.log("Config saved!");
@@ -120,6 +284,55 @@ var Orion = {
             console.log("Setting light level");
         }
     },
+    SetTimer: function(name, delay) {
+        if (!name) {
+            throw "Too few parameters!";
+        }
+
+        // TODO: Once mocked, fix by adding timer to object
+        if (this.debug) {
+            console.log("Setting timer " + name);
+        }
+    },
+    TargetObject: function(serial) {
+        if (!serial) {
+            throw "Too few parameters";
+        }
+
+        if (this.debug) {
+            console.log("Targeting object with serial " + serial);
+        }
+    },
+    /**
+     * @return {number}
+     */
+    Timer: function(name) {
+        if (!name) {
+            throw "Too few parameters!";
+        }
+
+        // TODO: Once mocked, fix with real value
+        return 1000;
+    },
+    /**
+     * @return {boolean}
+     */
+    TimerExists: function(name) {
+        if (!name) {
+            throw "Too few parameters!";
+        }
+
+        // TODO: Once the timer objects are mocked, make this actually
+        // return the value of whether the timer exists!
+        return false;
+    },
+    UseObject: function(serial) {
+        serial = serial | "self";
+
+        if (this.debug) {
+            console.log("Using object with serial " + serial);
+        }
+    },
     UseSkill: function(skillname, target) {
         if (!skillname) {
             throw "Not enough parameters!";
@@ -130,12 +343,31 @@ var Orion = {
             console.log("Using skill: " + skillname);
         }
     },
+    UseType: function(graphic, color, container, recurse) {
+        if (!graphic) {
+            throw "Too few parameters!";
+        }
+
+        if (this.debug) {
+            console.log("Trying to use type with graphic " + graphic);
+        }
+
+        // TODO: Double-check this doesn't throw a bool when done.
+        // TODO: Give some sort of confirmation if able to use type
+        //      once stuff has been properly mocked out.
+    },
     Wait: function(timeout) {
         if (this.debug) {
             console.log("Waiting " + timeout + " ms");
         }
-    }
+    },
+    WaitForTarget: function(delay) {
+        delay = delay | 1000;
 
+        if (this.debug) {
+            console.log("Waiting for target with delay " + delay);
+        }
+    }
 };
 
 var Player = {
